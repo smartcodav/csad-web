@@ -14,6 +14,7 @@ import {
     Hexagon,
     LayoutGrid,
     LogIn,
+    Menu,
     PaintBucket,
     Package,
     PartyPopper,
@@ -27,6 +28,7 @@ import {
     UtensilsCrossed,
     Users,
     Wrench,
+    X,
 } from 'lucide-react';
 import { useState } from 'react';
 import AppLogoIcon from './components/AppLogoIcon';
@@ -164,50 +166,74 @@ const sponsors = [
 ];
 
 export default function App() {
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
     return (
         <div className="flex min-h-screen flex-col bg-background">
             {/* Header */}
             <header className="border-b bg-card/80 backdrop-blur-sm">
-                <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:px-6 sm:py-4">
-                    <div className="flex min-w-0 items-center gap-2.5 sm:gap-3">
-                        <div className="flex h-9 w-9 shrink-0 items-center justify-center text-primary sm:h-10 sm:w-10">
-                            <Logo className="h-9 w-9 sm:h-10 sm:w-10" />
+                <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-2 sm:px-6 sm:py-4">
+                    <div className="flex min-w-0 items-center gap-2 sm:gap-3">
+                        <div className="flex h-12 w-12 shrink-0 items-center justify-center text-primary sm:h-12 sm:w-12">
+                            <Logo className="h-12 w-12" />
                         </div>
                         <div className="min-w-0">
-                            <p className="truncate text-sm font-bold leading-tight">{INSTITUTION_NAME}</p>
+                            <p className="truncate text-xs font-bold leading-tight sm:text-sm">{INSTITUTION_NAME}</p>
                             <p className="hidden text-xs text-muted-foreground sm:block">{INSTITUTION_TAGLINE}</p>
                         </div>
                     </div>
-                    <nav>
+                    <nav className="flex items-center gap-2">
+                        {/* Mobile menu button */}
+                        <button
+                            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                            className="md:hidden flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary p-2 text-primary-foreground transition-colors hover:bg-primary/90"
+                            aria-label="Toggle menu"
+                        >
+                            {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+                        </button>
+                        {/* Desktop login button */}
                         <a
                             href={LOGIN_URL}
-                            className="inline-flex shrink-0 items-center rounded-lg bg-primary px-4 py-2 text-xs font-medium text-primary-foreground shadow-sm transition-colors hover:bg-primary/90 sm:px-5 sm:text-sm"
+                            className="hidden md:inline-flex shrink-0 items-center rounded-lg bg-primary px-4 py-2 text-xs font-medium text-primary-foreground shadow-sm transition-colors hover:bg-primary/90 sm:px-5 sm:text-sm"
                         >
                             Log in
                         </a>
                     </nav>
                 </div>
+                {/* Mobile menu */}
+                {mobileMenuOpen && (
+                    <div className="border-t md:hidden">
+                        <div className="mx-auto max-w-6xl px-4 py-3">
+                            <a
+                                href={LOGIN_URL}
+                                className="block rounded-lg bg-primary px-4 py-2 text-center text-xs font-medium text-primary-foreground shadow-sm transition-colors hover:bg-primary/90"
+                            >
+                                Log in
+                            </a>
+                        </div>
+                    </div>
+                )}
             </header>
 
             {/* Leadership — colorful, top of page, inline with the skill acquisition mission */}
-            <section className="relative overflow-hidden bg-gradient-to-br from-primary via-fuchsia-700 to-orange-500 py-10 sm:py-12">
+            <section className="relative overflow-hidden bg-gradient-to-br from-primary via-primary/80 to-purple-900 py-10 sm:py-12">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.15),transparent_45%),radial-gradient(circle_at_80%_60%,rgba(255,255,255,0.12),transparent_40%)]" />
                 <div className="relative mx-auto max-w-6xl px-4 sm:px-6">
                     <p className="text-center text-xs font-semibold uppercase tracking-widest text-white/80">
                         Leading Nigeria&rsquo;s Drive for Skills Acquisition
                     </p>
-                    <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4 sm:gap-6">
+                    <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4 lg:gap-6">
                         {officials.map((official) => (
                             <div key={official.title} className="flex flex-col items-center text-center">
                                 <div className={`rounded-full bg-gradient-to-br p-1 shadow-lg ${official.ring}`}>
                                     <img
                                         src={official.photo}
                                         alt={official.title}
-                                        className="h-16 w-16 rounded-full border-2 border-white object-cover sm:h-24 sm:w-24"
+                                        className="h-20 w-20 rounded-full border-2 border-white object-cover md:h-24 md:w-24"
                                     />
                                 </div>
-                                <p className="mt-2 text-xs font-bold text-white sm:text-sm">{official.title}</p>
-                                <p className="text-[10px] text-white/80 sm:text-xs">{official.subtitle}</p>
+                                <p className="mt-2 text-xs font-bold text-white md:text-sm">{official.title}</p>
+                                <p className="text-[10px] text-white/80 md:text-xs">{official.subtitle}</p>
                             </div>
                         ))}
                     </div>

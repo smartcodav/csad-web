@@ -30,7 +30,7 @@
     --foreground: hsl(293, 15%, 10%);
     --card: hsl(0, 0%, 100%);
     --card-foreground: hsl(293, 15%, 10%);
-    --primary: hsl(293, 59%, 15%);
+    --primary: #310e35;
     --primary-foreground: hsl(0, 0%, 100%);
     --secondary: hsl(293, 25%, 95%);
     --secondary-foreground: hsl(293, 55%, 20%);
@@ -47,7 +47,7 @@
         --foreground: hsl(293, 8%, 95%);
         --card: hsl(293, 15%, 7%);
         --card-foreground: hsl(293, 8%, 95%);
-        --primary: hsl(293, 55%, 48%);
+        --primary: #7d3fa8;
         --primary-foreground: hsl(0, 0%, 100%);
         --secondary: hsl(293, 12%, 14%);
         --secondary-foreground: hsl(293, 25%, 85%);
