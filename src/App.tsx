@@ -174,8 +174,8 @@ export default function App() {
             <header className="border-b bg-card/80 backdrop-blur-sm">
                 <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-2 sm:px-6 sm:py-4">
                     <div className="flex min-w-0 items-center gap-2 sm:gap-3">
-                        <div className="flex h-14 w-14 shrink-0 items-center justify-center text-primary sm:h-16 sm:w-16">
-                            <Logo className="h-14 w-14 sm:h-16 sm:w-16" />
+                        <div className="flex h-32 w-32 shrink-0 items-center justify-center text-primary sm:h-32 sm:w-32">
+                            <Logo className="h-32 w-32" />
                         </div>
                         <div className="min-w-0">
                             <p className="truncate text-xs font-bold leading-tight sm:text-sm">{INSTITUTION_NAME}</p>
@@ -244,8 +244,8 @@ export default function App() {
             <main className="flex flex-1 flex-col">
                 <div className="flex flex-col items-center px-6 py-16 text-center sm:py-20">
                     <div className="mx-auto flex max-w-2xl flex-col items-center">
-                        <div className="mb-8 flex h-32 w-32 items-center justify-center text-primary">
-                            <Logo className="h-32 w-32" />
+                        <div className="mb-8 flex h-56 w-56 items-center justify-center text-primary">
+                            <Logo className="h-56 w-56" />
                         </div>
 
                         <h1 className="mb-3 text-4xl font-bold tracking-tight sm:text-5xl">
