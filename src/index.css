@@ -1,0 +1,70 @@
+@import 'tailwindcss';
+
+@theme {
+    --font-sans:
+        'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+
+    --color-card: var(--card);
+    --color-card-foreground: var(--card-foreground);
+
+    --color-primary: var(--primary);
+    --color-primary-foreground: var(--primary-foreground);
+
+    --color-secondary: var(--secondary);
+    --color-secondary-foreground: var(--secondary-foreground);
+
+    --color-muted: var(--muted);
+    --color-muted-foreground: var(--muted-foreground);
+
+    --color-accent: var(--accent);
+    --color-accent-foreground: var(--accent-foreground);
+
+    --color-border: var(--border);
+}
+
+:root {
+    --background: hsl(300, 15%, 99%);
+    --foreground: hsl(293, 15%, 10%);
+    --card: hsl(0, 0%, 100%);
+    --card-foreground: hsl(293, 15%, 10%);
+    --primary: hsl(293, 59%, 15%);
+    --primary-foreground: hsl(0, 0%, 100%);
+    --secondary: hsl(293, 25%, 95%);
+    --secondary-foreground: hsl(293, 55%, 20%);
+    --muted: hsl(293, 10%, 95%);
+    --muted-foreground: hsl(293, 8%, 45%);
+    --accent: hsl(293, 30%, 93%);
+    --accent-foreground: hsl(293, 55%, 20%);
+    --border: hsl(293, 15%, 90%);
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --background: hsl(293, 15%, 5%);
+        --foreground: hsl(293, 8%, 95%);
+        --card: hsl(293, 15%, 7%);
+        --card-foreground: hsl(293, 8%, 95%);
+        --primary: hsl(293, 55%, 48%);
+        --primary-foreground: hsl(0, 0%, 100%);
+        --secondary: hsl(293, 12%, 14%);
+        --secondary-foreground: hsl(293, 25%, 85%);
+        --muted: hsl(293, 12%, 10%);
+        --muted-foreground: hsl(293, 8%, 60%);
+        --accent: hsl(293, 18%, 14%);
+        --accent-foreground: hsl(293, 25%, 85%);
+        --border: hsl(293, 12%, 16%);
+    }
+}
+
+@layer base {
+    * {
+        @apply border-border;
+    }
+
+    body {
+        @apply bg-background text-foreground;
+    }
+}
