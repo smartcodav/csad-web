@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
 
-git pull origin main
+git fetch origin main
+git reset --hard origin/main
 npm run build
