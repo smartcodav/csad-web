@@ -28,10 +28,26 @@ import {
     Users,
     Wrench,
 } from 'lucide-react';
+import { useState } from 'react';
 import AppLogoIcon from './components/AppLogoIcon';
 
+const LOGO_URL = '/logo.png';
+
+// Renders the institution logo image, falling back to the built-in crest icon
+// if logo.png hasn't been placed in public/ (or fails to load) for some deploy.
+function Logo({ className }: { className?: string }) {
+    const [failed, setFailed] = useState(false);
+
+    if (failed) {
+        return <AppLogoIcon className={className} />;
+    }
+
+    return <img src={LOGO_URL} alt="Logo" className={`${className} object-contain`} onError={() => setFailed(true)} />;
+}
+
 const INSTITUTION_NAME = 'Centre for Skills Acquisition and Development';
-const INSTITUTION_TAGLINE = 'Computer-Based Examination Portal';
+const INSTITUTION_TAGLINE = 'Compute-Based Examination Portal';
+
 
 // The CSAD portal (Laravel app) lives on its own domain — every login / dashboard
 // action on this marketing site links out to it rather than being handled here.
@@ -155,7 +171,7 @@ export default function App() {
                 <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:px-6 sm:py-4">
                     <div className="flex min-w-0 items-center gap-2.5 sm:gap-3">
                         <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary text-primary-foreground sm:h-10 sm:w-10">
-                            <AppLogoIcon className="h-5 w-5 sm:h-6 sm:w-6" />
+                            <Logo className="h-5 w-5 sm:h-6 sm:w-6" />
                         </div>
                         <div className="min-w-0">
                             <p className="truncate text-sm font-bold leading-tight">{INSTITUTION_NAME}</p>
@@ -203,7 +219,7 @@ export default function App() {
                 <div className="flex flex-col items-center px-6 py-16 text-center sm:py-20">
                     <div className="mx-auto flex max-w-2xl flex-col items-center">
                         <div className="mb-8 flex h-20 w-20 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-lg">
-                            <GraduationCap className="h-10 w-10" />
+                            <Logo className="h-12 w-12" />
                         </div>
 
                         <h1 className="mb-3 text-4xl font-bold tracking-tight sm:text-5xl">
