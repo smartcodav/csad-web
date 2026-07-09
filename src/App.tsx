@@ -174,11 +174,12 @@ export default function App() {
             <header className="border-b bg-card/80 backdrop-blur-sm">
                 <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-2 sm:px-6 sm:py-4">
                     <div className="flex min-w-0 items-center gap-2 sm:gap-3">
-                        <div className="flex h-32 w-32 shrink-0 items-center justify-center text-primary sm:h-32 sm:w-32">
-                            <Logo className="h-32 w-32" />
+                        <div className="flex h-10 w-10 shrink-0 items-center justify-center text-primary sm:h-12 sm:w-12">
+                            <Logo className="h-10 w-10 sm:h-12 sm:w-12" />
                         </div>
                         <div className="min-w-0">
-                            <p className="truncate text-xs font-bold leading-tight sm:text-sm">{INSTITUTION_NAME}</p>
+                            <p className="block text-xs font-bold leading-tight sm:hidden">CSAD</p>
+                            <p className="hidden text-xs font-bold leading-tight sm:block">{INSTITUTION_NAME}</p>
                             <p className="hidden text-xs text-muted-foreground sm:block">{INSTITUTION_TAGLINE}</p>
                         </div>
                     </div>
