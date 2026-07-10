@@ -1,42 +1,56 @@
 import { MessageCircle, Send, X } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 
+const PORTAL_URL = (import.meta.env.VITE_PORTAL_URL || 'https://csadportal.com').replace(/\/$/, '');
+
 interface Message {
     id: string;
     type: 'user' | 'bot';
     content: string;
+    cta?: { label: string; url: string };
 }
 
 const NSQ_FAQ = {
     greetings: {
         patterns: ['hello', 'hi', 'hey', 'greetings'],
         responses: [
-            "Hello! Welcome to CSAD's NSQ Certification Portal. How can I assist you today? I can answer questions about NSQ certification, available skills, registration process, and more.",
+            "Hello! Welcome to CSAD's NSQ Certification Portal. I can answer questions about NSQ certification, pricing, available skills, and registration - and get you enrolled today. What would you like to know?",
         ],
     },
     what_is_nsq: {
         patterns: ['what is nsq', 'nsq certification', 'what is national skills qualification'],
         responses: [
-            "The National Skills Qualification (NSQ) is a work-related, competence-based credential issued by recognized Awarding Bodies under NBTE. Unlike ND or HND, it certifies that you can actually DO the job - assessed at the training centre and on the job, with no minimum academic entry requirement.",
+            "The National Skills Qualification (NSQ) is a work-related, competence-based credential issued by recognized Awarding Bodies under NBTE. Unlike ND or HND, it certifies that you can actually DO the job - assessed at the training centre and on the job, with no minimum academic entry requirement. Ready to get certified?",
         ],
+        cta: { label: 'Start Your NSQ Application', url: PORTAL_URL },
     },
     skills_offered: {
         patterns: ['what skills', 'available skills', 'what can i learn', 'nsq trades'],
         responses: [
-            "We offer 30+ NSQ-certified skills including: Aluminum Fabrication, Aquaculture, Automobile Maintenance, Carpentry & Joinery, Computer Hardware Maintenance, Cosmetology, Crop Production, Electrical Installation, Garment Making, Hospitality & Catering, Masonry, Photography, Plumbing, Web Application Development, Welding & Fabrication, and many more!",
+            "We offer 30+ NSQ-certified skills including: Aluminum Fabrication, Aquaculture, Automobile Maintenance, Carpentry & Joinery, Computer Hardware Maintenance, Cosmetology, Crop Production, Electrical Installation, Garment Making, Hospitality & Catering, Masonry, Photography, Plumbing, Web Application Development, Welding & Fabrication, and many more! Browse the full list and pick yours on the portal.",
         ],
+        cta: { label: 'Browse All Skills & Enroll', url: PORTAL_URL },
     },
     registration: {
-        patterns: ['how to register', 'register', 'registration process', 'sign up'],
+        patterns: ['how to register', 'register', 'registration process', 'sign up', 'enroll', 'apply', 'get started', 'how do i start'],
         responses: [
-            "To register for NSQ certification, click on 'Student Login' on our homepage. You'll be directed to our secure portal where you can create an account, select your skill of interest, and begin your training journey. No minimum academic qualification is required!",
+            "Registering is quick: head to the CSAD Portal, create your account, select your skill of interest, and begin your training journey the same day. No minimum academic qualification is required! Click below to get started right now.",
         ],
+        cta: { label: 'Register on the Portal', url: PORTAL_URL },
+    },
+    pricing: {
+        patterns: ['price', 'cost', 'fee', 'how much', 'payment', 'tuition'],
+        responses: [
+            "Fees vary by skill and are kept affordable to maximize access. The exact, up-to-date pricing for your chosen trade - plus any active discounts - is shown on the portal during registration.",
+        ],
+        cta: { label: 'View Fees & Enroll', url: PORTAL_URL },
     },
     entry_requirement: {
         patterns: ['entry requirement', 'qualification', 'minimum requirement', 'do i need'],
         responses: [
-            "Great news! The NSQ certification has NO MINIMUM ACADEMIC ENTRY REQUIREMENT. This makes it accessible to everyone regardless of their educational background. We assess you based on hands-on competence and practical skills.",
+            "Great news! The NSQ certification has NO MINIMUM ACADEMIC ENTRY REQUIREMENT. This makes it accessible to everyone regardless of their educational background. We assess you based on hands-on competence and practical skills. There's nothing stopping you from applying today.",
         ],
+        cta: { label: 'Apply Now', url: PORTAL_URL },
     },
     assessment: {
         patterns: ['assessment', 'how am i assessed', 'examination', 'test'],
@@ -45,24 +59,36 @@ const NSQ_FAQ = {
         ],
     },
     benefits: {
-        patterns: ['benefits', 'why nsq', 'advantages', 'what do i get'],
+        patterns: ['benefits', 'why nsq', 'advantages', 'what do i get', 'job', 'career', 'employment'],
         responses: [
-            "NSQ certification benefits include:\n• Nationally recognized credential proving hands-on competence\n• Increased employability and job opportunities\n• Opens doors to self-employment and business licensing\n• Builds confidence in your skills\n• Assessed at your own pace in the skill you practice\n• Compliance with national standards for employers",
+            "NSQ certification benefits include:\n• Nationally recognized credential proving hands-on competence\n• Increased employability and job opportunities\n• Opens doors to self-employment and business licensing\n• Builds confidence in your skills\n• Assessed at your own pace in the skill you practice\n• Compliance with national standards for employers\n\nThe sooner you enroll, the sooner you can start building these skills.",
         ],
+        cta: { label: 'Enroll Now', url: PORTAL_URL },
     },
     institution: {
         patterns: ['csad', 'centre for skills', 'who are you', 'about csad'],
         responses: [
-            "CSAD - Centre for Skills Acquisition and Development - operates under Federal Polytechnic, Ado-Ekiti. We're committed to driving Nigeria's skills development and providing access to nationally recognized NSQ certification across 30+ hands-on trades.",
+            "CSAD - Centre for Skills Acquisition and Development - operates under Federal Polytechnic, Ado-Ekiti. We're committed to driving Nigeria's skills development and providing access to nationally recognized NSQ certification across 30+ hands-on trades. All applications and student accounts are managed on our portal.",
         ],
+        cta: { label: 'Visit the CSAD Portal', url: PORTAL_URL },
+    },
+    contact: {
+        patterns: ['contact', 'support', 'help desk', 'talk to someone', 'login', 'sign in'],
+        responses: [
+            "You can reach support and manage your account directly on the CSAD Portal - it's also where you log in, check application status, and make payments.",
+        ],
+        cta: { label: 'Go to Portal', url: PORTAL_URL },
     },
     default: {
         patterns: [],
         responses: [
-            "I appreciate your question! While I'm specifically trained to answer questions about NSQ certification and our programs, I might not have the exact answer. Please contact us directly through the portal or visit our website for more information. Is there anything else about NSQ or our available skills I can help with?",
+            "I appreciate your question! While I'm specifically trained to answer questions about NSQ certification and our programs, I might not have the exact answer here. For registration, pricing, and full details, the CSAD Portal is the best place to look - or ask me about NSQ skills, benefits, or how to enroll.",
         ],
+        cta: { label: 'Visit CSAD Portal', url: PORTAL_URL },
     },
 };
+
+const SUGGESTIONS = ['What skills can I learn?', 'How much does it cost?', 'How do I register?'];
 
 export default function NSQChatbot() {
     const [isOpen, setIsOpen] = useState(false);
@@ -117,29 +143,31 @@ export default function NSQChatbot() {
         };
     }, [isOpen]);
 
-    const findResponse = (userMessage: string): string => {
+    const findResponse = (userMessage: string): { content: string; cta?: { label: string; url: string } } => {
         const normalizedMessage = userMessage.toLowerCase().trim();
 
         for (const [key, faqItem] of Object.entries(NSQ_FAQ)) {
             if (key === 'default') continue;
             for (const pattern of faqItem.patterns) {
                 if (normalizedMessage.includes(pattern)) {
-                    return faqItem.responses[Math.floor(Math.random() * faqItem.responses.length)];
+                    return {
+                        content: faqItem.responses[Math.floor(Math.random() * faqItem.responses.length)],
+                        cta: 'cta' in faqItem ? faqItem.cta : undefined,
+                    };
                 }
             }
         }
 
-        return NSQ_FAQ.default.responses[0];
+        return { content: NSQ_FAQ.default.responses[0], cta: NSQ_FAQ.default.cta };
     };
 
-    const handleSendMessage = (e: React.FormEvent) => {
-        e.preventDefault();
-        if (!inputValue.trim()) return;
+    const sendMessage = (text: string) => {
+        if (!text.trim()) return;
 
         const userMessage: Message = {
             id: Date.now().toString(),
             type: 'user',
-            content: inputValue,
+            content: text,
         };
 
         setMessages((prev) => [...prev, userMessage]);
@@ -147,13 +175,20 @@ export default function NSQChatbot() {
 
         // Simulate bot response delay
         setTimeout(() => {
+            const { content, cta } = findResponse(text);
             const botResponse: Message = {
                 id: (Date.now() + 1).toString(),
                 type: 'bot',
-                content: findResponse(inputValue),
+                content,
+                cta,
             };
             setMessages((prev) => [...prev, botResponse]);
         }, 500);
+    };
+
+    const handleSendMessage = (e: React.FormEvent) => {
+        e.preventDefault();
+        sendMessage(inputValue);
     };
 
     if (!isOpen) {
@@ -176,13 +211,23 @@ export default function NSQChatbot() {
                     <h3 className="font-bold text-white">CSAD NSQ Assistant</h3>
                     <p className="text-xs text-white/80">Powered by AI</p>
                 </div>
-                <button
-                    onClick={() => setIsOpen(false)}
-                    className="flex h-9 w-9 items-center justify-center rounded-full bg-white/30 text-white hover:bg-white/50 transition-all active:scale-95"
-                    title="Close (ESC)"
-                >
-                    <X className="h-5 w-5" />
-                </button>
+                <div className="flex items-center gap-2">
+                    <a
+                        href={PORTAL_URL}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="whitespace-nowrap rounded-full bg-white px-3 py-1.5 text-xs font-semibold text-primary hover:bg-white/90 transition-all active:scale-95"
+                    >
+                        Enroll Now
+                    </a>
+                    <button
+                        onClick={() => setIsOpen(false)}
+                        className="flex h-9 w-9 items-center justify-center rounded-full bg-white/30 text-white hover:bg-white/50 transition-all active:scale-95"
+                        title="Close (ESC)"
+                    >
+                        <X className="h-5 w-5" />
+                    </button>
+                </div>
             </div>
 
             {/* Messages */}
@@ -201,11 +246,36 @@ export default function NSQChatbot() {
                             {message.content.split('\n').map((line, i) => (
                                 <div key={i}>{line}</div>
                             ))}
+                            {message.cta && (
+                                <a
+                                    href={message.cta.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="mt-2 inline-block rounded-lg bg-primary px-3 py-1.5 text-xs font-semibold text-white hover:bg-primary/90 transition-colors"
+                                >
+                                    {message.cta.label} →
+                                </a>
+                            )}
                         </div>
                     </div>
                 ))}
                 <div ref={messagesEndRef} />
             </div>
+
+            {/* Quick suggestions */}
+            {messages.length < 2 && (
+                <div className="flex flex-wrap gap-2 px-4 pb-2 flex-shrink-0">
+                    {SUGGESTIONS.map((suggestion) => (
+                        <button
+                            key={suggestion}
+                            onClick={() => sendMessage(suggestion)}
+                            className="rounded-full border border-primary/30 bg-primary/5 px-3 py-1 text-xs text-primary hover:bg-primary/10 transition-colors"
+                        >
+                            {suggestion}
+                        </button>
+                    ))}
+                </div>
+            )}
 
             {/* Input */}
             <form
