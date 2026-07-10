@@ -169,9 +169,9 @@ export default function NSQChatbot() {
     }
 
     return (
-        <div className="fixed bottom-6 right-6 w-96 max-w-[calc(100vw-2rem)] rounded-2xl shadow-2xl bg-white flex flex-col h-[600px] z-50" ref={chatBoxRef}>
+        <div className="fixed bottom-6 right-6 w-96 max-w-[calc(100vw-2rem)] max-h-[calc(100vh-7rem)] rounded-2xl shadow-2xl bg-white flex flex-col z-50" ref={chatBoxRef}>
             {/* Header */}
-            <div className="flex items-center justify-between gap-3 border-b bg-gradient-to-r from-primary to-purple-700 p-4 rounded-t-2xl">
+            <div className="flex items-center justify-between gap-3 border-b bg-gradient-to-r from-primary to-purple-700 px-4 py-3 rounded-t-2xl flex-shrink-0">
                 <div>
                     <h3 className="font-bold text-white">CSAD NSQ Assistant</h3>
                     <p className="text-xs text-white/80">Powered by AI</p>
@@ -210,7 +210,7 @@ export default function NSQChatbot() {
             {/* Input */}
             <form
                 onSubmit={handleSendMessage}
-                className="border-t p-4 flex gap-2"
+                className="border-t p-4 flex gap-2 flex-shrink-0"
             >
                 <input
                     type="text"
