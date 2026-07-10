@@ -30,8 +30,10 @@ import {
     Wrench,
     X,
 } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import AppLogoIcon from './components/AppLogoIcon';
+import SocialShare from './components/SocialShare';
+import NSQChatbot from './components/NSQChatbot';
 
 const LOGO_URL = '/logo.png';
 
@@ -167,6 +169,37 @@ const sponsors = [
 
 export default function App() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+    useEffect(() => {
+        // Add structured data (JSON-LD) for SEO
+        const structuredData = {
+            '@context': 'https://schema.org',
+            '@type': 'Organization',
+            name: INSTITUTION_NAME,
+            alternateName: 'CSAD',
+            url: 'https://csad.fedpolyado.edu.ng',
+            logo: 'https://csad.fedpolyado.edu.ng/logo.png',
+            description: 'Centre for Skills Acquisition and Development - NSQ Certification Portal',
+            sameAs: ['https://github.com/smartcodav/csad-web'],
+            contactPoint: {
+                '@type': 'ContactPoint',
+                contactType: 'Customer Service',
+                url: 'https://csad.fedpolyado.edu.ng',
+            },
+            foundingDate: '2024',
+            areaServed: 'NG',
+            knowsAbout: ['Skills Acquisition', 'NSQ Certification', 'Vocational Training'],
+        };
+
+        const script = document.createElement('script');
+        script.type = 'application/ld+json';
+        script.innerHTML = JSON.stringify(structuredData);
+        document.head.appendChild(script);
+
+        return () => {
+            document.head.removeChild(script);
+        };
+    }, []);
 
     return (
         <div className="flex min-h-screen flex-col bg-background">
@@ -377,15 +410,23 @@ export default function App() {
             </main>
 
             {/* Footer */}
-            <footer className="border-t py-6 text-center text-xs text-muted-foreground">
-                <p>&copy; {new Date().getFullYear()} {INSTITUTION_NAME}. All rights reserved.</p>
-                <p className="mt-1">
-                    Powered by{' '}
-                    <a href="https://schoolgohost.com" target="_blank" rel="noopener noreferrer" className="font-medium text-primary hover:underline">
-                        SchoolGoHost Systems Limited
-                    </a>
-                </p>
+            <footer className="border-t py-8 text-center text-xs text-muted-foreground">
+                <div className="mx-auto max-w-6xl px-4">
+                    <div className="mb-6 flex justify-center">
+                        <SocialShare />
+                    </div>
+                    <p>&copy; {new Date().getFullYear()} {INSTITUTION_NAME}. All rights reserved.</p>
+                    <p className="mt-1">
+                        Powered by{' '}
+                        <a href="https://schoolgohost.com" target="_blank" rel="noopener noreferrer" className="font-medium text-primary hover:underline">
+                            SchoolGoHost Systems Limited
+                        </a>
+                    </p>
+                </div>
             </footer>
+
+            {/* Chatbot */}
+            <NSQChatbot />
         </div>
     );
 }
