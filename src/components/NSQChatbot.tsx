@@ -75,6 +75,7 @@ export default function NSQChatbot() {
     ]);
     const [inputValue, setInputValue] = useState('');
     const messagesEndRef = useRef<HTMLDivElement>(null);
+    const chatBoxRef = useRef<HTMLDivElement>(null);
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -83,6 +84,38 @@ export default function NSQChatbot() {
     useEffect(() => {
         scrollToBottom();
     }, [messages]);
+
+    // Close chatbot with ESC key
+    useEffect(() => {
+        const handleEscape = (e: KeyboardEvent) => {
+            if (e.key === 'Escape' && isOpen) {
+                setIsOpen(false);
+            }
+        };
+
+        window.addEventListener('keydown', handleEscape);
+        return () => window.removeEventListener('keydown', handleEscape);
+    }, [isOpen]);
+
+    // Close chatbot when clicking outside
+    useEffect(() => {
+        const handleClickOutside = (e: MouseEvent) => {
+            if (chatBoxRef.current && !chatBoxRef.current.contains(e.target as Node)) {
+                const isButton = (e.target as HTMLElement).closest('button');
+                if (!isButton) {
+                    setIsOpen(false);
+                }
+            }
+        };
+
+        if (isOpen) {
+            document.addEventListener('mousedown', handleClickOutside);
+        }
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [isOpen]);
 
     const findResponse = (userMessage: string): string => {
         const normalizedMessage = userMessage.toLowerCase().trim();
@@ -136,7 +169,7 @@ export default function NSQChatbot() {
     }
 
     return (
-        <div className="fixed bottom-6 right-6 w-96 max-w-[calc(100vw-2rem)] rounded-2xl shadow-2xl bg-white flex flex-col h-[600px] z-50">
+        <div className="fixed bottom-6 right-6 w-96 max-w-[calc(100vw-2rem)] rounded-2xl shadow-2xl bg-white flex flex-col h-[600px] z-50" ref={chatBoxRef}>
             {/* Header */}
             <div className="flex items-center justify-between gap-3 border-b bg-gradient-to-r from-primary to-purple-700 p-4 rounded-t-2xl">
                 <div>
@@ -145,7 +178,8 @@ export default function NSQChatbot() {
                 </div>
                 <button
                     onClick={() => setIsOpen(false)}
-                    className="flex h-8 w-8 items-center justify-center rounded-full bg-white/20 text-white hover:bg-white/30 transition-colors"
+                    className="flex h-9 w-9 items-center justify-center rounded-full bg-white/30 text-white hover:bg-white/50 transition-all active:scale-95"
+                    title="Close (ESC)"
                 >
                     <X className="h-5 w-5" />
                 </button>
