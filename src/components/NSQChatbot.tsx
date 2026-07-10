@@ -194,8 +194,8 @@ export default function NSQChatbot() {
                     >
                         <div
                             className={`max-w-xs rounded-lg px-4 py-2 text-sm ${message.type === 'user'
-                                    ? 'bg-primary text-white rounded-br-none'
-                                    : 'bg-white border border-gray-200 text-foreground rounded-bl-none'
+                                ? 'bg-primary text-white rounded-br-none'
+                                : 'bg-white border border-gray-200 text-foreground rounded-bl-none'
                                 }`}
                         >
                             {message.content.split('\n').map((line, i) => (
