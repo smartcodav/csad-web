@@ -6,7 +6,7 @@ interface SocialShareProps {
     url?: string;
 }
 
-export default function SocialShare({ 
+export default function SocialShare({
     title = 'Centre for Skills Acquisition and Development - NSQ Certification Portal',
     description = 'Register and get NSQ certified across 30+ hands-on skill trades. Competence-based assessment with no minimum academic entry requirement.',
     url = 'https://csad.fedpolyado.edu.ng'
