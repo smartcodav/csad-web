@@ -223,14 +223,14 @@ export default function App() {
                     <p className="text-center text-xs font-semibold uppercase tracking-widest text-white/80">
                         Leading Nigeria&rsquo;s Drive for Skills Acquisition
                     </p>
-                    <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4 lg:gap-6">
+                    <div className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-2 lg:grid-cols-4 lg:gap-6">
                         {officials.map((official) => (
                             <div key={official.title} className="flex flex-col items-center text-center">
                                 <div className={`rounded-full bg-gradient-to-br p-1 shadow-lg ${official.ring}`}>
                                     <img
                                         src={official.photo}
                                         alt={official.title}
-                                        className="h-20 w-20 rounded-full border-2 border-white object-cover md:h-24 md:w-24"
+                                        className="h-24 w-24 rounded-full border-2 border-white object-cover md:h-32 md:w-32"
                                     />
                                 </div>
                                 <p className="mt-2 text-xs font-bold text-white md:text-sm">{official.title}</p>
